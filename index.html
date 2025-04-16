@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willow Live Events Player</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #player-container {
+            width: 100%;
+            height: 100%;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="player-container">
+        <div class="loading" id="loading">Loading live match data...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('player-container');
+            const loadingElement = document.getElementById('loading');
+            
+            fetch('https://raw.githubusercontent.com/drmlive/willow-live-events/main/willow.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Find matches with "Indian Premier League 2025" in the title
+                    const iplMatches = data.matches.filter(match => 
+                        match.title.includes('Indian Premier League 2025'));
+                    
+                    if (iplMatches.length === 0) {
+                        throw new Error('No Indian Premier League 2025 matches found');
+                    }
+                    
+                    // Get the first match (you can modify this logic if there are multiple matches)
+                    const match = iplMatches[0];
+                    
+                    // Extract the first URL and key
+                    const firstUrl = match.playback_data.urls[0].url;
+                    const key = match.playback_data.keys[0];
+                    
+                    // Create the iframe with the player URL
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://teamroplry2.pages.dev/?url=${encodeURIComponent(firstUrl)}&key=${encodeURIComponent(key)}`;
+                    
+                    // Replace loading message with iframe
+                    container.innerHTML = '';
+                    container.appendChild(iframe);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingElement.className = 'error';
+                    loadingElement.textContent = `Error: ${error.message}`;
+                });
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willow Live Events Player</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #player-container {
+            width: 100%;
+            height: 100%;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="player-container">
+        <div class="loading" id="loading">Loading live match data...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('player-container');
+            const loadingElement = document.getElementById('loading');
+            
+            fetch('https://raw.githubusercontent.com/drmlive/willow-live-events/main/willow.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Find matches with "Indian Premier League 2025" in the title
+                    const iplMatches = data.matches.filter(match => 
+                        match.title.includes('Indian Premier League 2025'));
+                    
+                    if (iplMatches.length === 0) {
+                        // No IPL matches found, show the alternative video
+                        const iframe = document.createElement('iframe');
+                        iframe.src = 'https://media-hosting.imagekit.io/1996bce2aade4e62/Black%20and%20White%20Old%20Movie%20Silent%20Film%20Cinema%20Projector%20Video.mp4?Expires=1839379555&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=paPtQmaQ4l6rpstSvYNMoYCRbe3VFIUQ927kdZPUE1571y3RYJUdcIFSELWzhVMVlQlhFUpouQGU0TYDx23GQAwpeESuBnDJts-OQ1FFMM9CIUvjiDTdGxeRBns6VA9V8vXAkZBLN7zk5QkfbOq7qhF2HRWzOFgqosZJe99uhGSNp9sQ2CdBVXyOkRsZSvH~0nBUv6z0w3b0iL~fLXlCSv7YMmRptIJR6xHeoDVD~HHyYK1JBPZEruhBU3jhTdGOY~5O7Y~GvRBfGFZobAmqDgx8GBmNmh7IF7suxqwm46SPCn5P3mNiFCqCDQbgM4kWtTjyLpNkbgitIun9AVO-0g__';
+                        container.innerHTML = '';
+                        container.appendChild(iframe);
+                        return;
+                    }
+                    
+                    // If only one match, play it regardless of time
+                    if (iplMatches.length === 1) {
+                        const match = iplMatches[0];
+                        const firstUrl = match.playback_data.urls[0].url;
+                        const key = match.playback_data.keys[0];
+                        
+                        const iframe = document.createElement('iframe');
+                        iframe.src = `https://teamroplry2.pages.dev/?url=${encodeURIComponent(firstUrl)}&key=${encodeURIComponent(key)}`;
+                        container.innerHTML = '';
+                        container.appendChild(iframe);
+                        return;
+                    }
+                    
+                    // For multiple matches, determine which one to play based on current time
+                    const now = new Date();
+                    const currentHours = now.getHours();
+                    const currentMinutes = now.getMinutes();
+                    const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+                    
+                    // Convert all match times to IST and minutes since midnight
+                    const matchesWithIST = iplMatches.map(match => {
+                        const utcDate = new Date(match.startTime);
+                        // Convert UTC to IST (UTC+5:30)
+                        const istHours = utcDate.getUTCHours() + 5;
+                        const istMinutes = utcDate.getUTCMinutes() + 30;
+                        // Adjust if minutes overflow
+                        const adjustedHours = istHours + Math.floor(istMinutes / 60);
+                        const adjustedMinutes = istMinutes % 60;
+                        
+                        return {
+                            ...match,
+                            istHours: adjustedHours,
+                            istMinutes: adjustedMinutes,
+                            totalMinutes: adjustedHours * 60 + adjustedMinutes
+                        };
+                    });
+                    
+                    // Sort matches by start time
+                    matchesWithIST.sort((a, b) => a.totalMinutes - b.totalMinutes);
+                    
+                    // Determine which match to play
+                    let matchToPlay;
+                    if (currentTimeInMinutes < 19 * 60 + 20) { // Before 19:20 IST
+                        matchToPlay = matchesWithIST[0]; // Earliest match
+                    } else {
+                        matchToPlay = matchesWithIST[matchesWithIST.length - 1]; // Latest match
+                    }
+                    
+                    // Play the selected match
+                    const firstUrl = matchToPlay.playback_data.urls[0].url;
+                    const key = matchToPlay.playback_data.keys[0];
+                    
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://teamroplry2.pages.dev/?url=${encodeURIComponent(firstUrl)}&key=${encodeURIComponent(key)}`;
+                    container.innerHTML = '';
+                    container.appendChild(iframe);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingElement.className = 'error';
+                    loadingElement.textContent = `Error: ${error.message}`;
+                });
+        });
+    </script>
+</body>
+</html>
