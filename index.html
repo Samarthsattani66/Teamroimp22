@@ -1,223 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Willow Live Events Player</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        #player-container {
-            width: 100%;
-            height: 100%;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-        }
-        .error {
-            color: red;
-            text-align: center;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willow Live Events Player</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #player-container {
+            width: 100%;
+            height: 100%;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
-    <div id="player-container">
-        <div class="loading" id="loading">Loading live match data...</div>
-    </div>
+    <div id="player-container">
+        <div class="loading" id="loading">Loading live match data...</div>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('player-container');
-            const loadingElement = document.getElementById('loading');
-            
-            fetch('https://raw.githubusercontent.com/drmlive/willow-live-events/main/willow.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Find matches with "Indian Premier League 2025" in the title
-                    const iplMatches = data.matches.filter(match => 
-                        match.title.includes('Indian Premier League 2025'));
-                    
-                    if (iplMatches.length === 0) {
-                        throw new Error('No Indian Premier League 2025 matches found');
-                    }
-                    
-                    // Get the first match (you can modify this logic if there are multiple matches)
-                    const match = iplMatches[0];
-                    
-                    // Extract the first URL and key
-                    const firstUrl = match.playback_data.urls[0].url;
-                    const key = match.playback_data.keys[0];
-                    
-                    // Create the iframe with the player URL
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://teamroplry2.pages.dev/?url=${encodeURIComponent(firstUrl)}&key=${encodeURIComponent(key)}`;
-                    
-                    // Replace loading message with iframe
-                    container.innerHTML = '';
-                    container.appendChild(iframe);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    loadingElement.className = 'error';
-                    loadingElement.textContent = `Error: ${error.message}`;
-                });
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Willow Live Events Player</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        #player-container {
-            width: 100%;
-            height: 100%;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            font-family: Arial, sans-serif;
-            font-size: 18px;
-        }
-        .error {
-            color: red;
-            text-align: center;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-        }
-    </style>
-</head>
-<body>
-    <div id="player-container">
-        <div class="loading" id="loading">Loading live match data...</div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('player-container');
+            const loadingElement = document.getElementById('loading');
+            const fallbackVideo = 'https://media-hosting.imagekit.io/8f26dc1ba047423b/Purple%20and%20Black%20Futuristic%20Gaming%20Channel%20Youtube%20Intro_20250416_133244_0001.mp4?Expires=1839399151&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=aDAm314kGivhHoeYY6Qj4igJTn6oknWoYWZZFNTVneQ65kbvqPvlopwmrbhodNY0KsMHqyJ90q5PJYesDchHaYct071FC0pLYf-Xrdph5H5zGcjk-BWWBxPHY93rxGWKHw9bclAI6l~QgvE3oDSXAWK1qWhVmicalGQt~b6CunHOTmPf5kNe8SPHuG3MqNG9sqGjbzUlLz-piZKe4v4Pr3pgmYabZDAMYvxfBRyOTGJKx52F5f1SV07aeOabGl01SmW~m3t31IwXi7omvUniTJVIyXto-sbJkJQ0T99E5c13SDe8INyFPLmhx4gJh3D2bfX-7pIDEFSZzxsp4oTXPQ__';
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const container = document.getElementById('player-container');
-            const loadingElement = document.getElementById('loading');
-            
-            fetch('https://raw.githubusercontent.com/drmlive/willow-live-events/main/willow.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Find matches with "Indian Premier League 2025" in the title
-                    const iplMatches = data.matches.filter(match => 
-                        match.title.includes('Indian Premier League 2025'));
-                    
-                    if (iplMatches.length === 0) {
-                        // No IPL matches found, show the alternative video
-                        const iframe = document.createElement('iframe');
-                        iframe.src = 'https://media-hosting.imagekit.io/8f26dc1ba047423b/Purple and Black Futuristic Gaming Channel Youtube Intro_20250416_133244_0001.mp4?Expires=1839399151&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=aDAm314kGivhHoeYY6Qj4igJTn6oknWoYWZZFNTVneQ65kbvqPvlopwmrbhodNY0KsMHqyJ90q5PJYesDchHaYct071FC0pLYf-Xrdph5H5zGcjk-BWWBxPHY93rxGWKHw9bclAI6l~QgvE3oDSXAWK1qWhVmicalGQt~b6CunHOTmPf5kNe8SPHuG3MqNG9sqGjbzUlLz-piZKe4v4Pr3pgmYabZDAMYvxfBRyOTGJKx52F5f1SV07aeOabGl01SmW~m3t31IwXi7omvUniTJVIyXto-sbJkJQ0T99E5c13SDe8INyFPLmhx4gJh3D2bfX-7pIDEFSZzxsp4oTXPQ__';
-                        container.innerHTML = '';
-                        container.appendChild(iframe);
-                        return;
-                    }
-                    
-                    // If only one match, play it regardless of time
-                    if (iplMatches.length === 1) {
-                        const match = iplMatches[0];
-                        const firstUrl = match.playback_data.urls[0].url;
-                        const key = match.playback_data.keys[0];
-                        
-                        const iframe = document.createElement('iframe');
-                        iframe.src = `https://teamroplry2.pages.dev/?url=${encodeURIComponent(firstUrl)}&key=${encodeURIComponent(key)}`;
-                        container.innerHTML = '';
-                        container.appendChild(iframe);
-                        return;
-                    }
-                    
-                    // For multiple matches, determine which one to play based on current time
-                    const now = new Date();
-                    const currentHours = now.getHours();
-                    const currentMinutes = now.getMinutes();
-                    const currentTimeInMinutes = currentHours * 60 + currentMinutes;
-                    
-                    // Convert all match times to IST and minutes since midnight
-                    const matchesWithIST = iplMatches.map(match => {
-                        const utcDate = new Date(match.startTime);
-                        // Convert UTC to IST (UTC+5:30)
-                        const istHours = utcDate.getUTCHours() + 5;
-                        const istMinutes = utcDate.getUTCMinutes() + 30;
-                        // Adjust if minutes overflow
-                        const adjustedHours = istHours + Math.floor(istMinutes / 60);
-                        const adjustedMinutes = istMinutes % 60;
-                        
-                        return {
-                            ...match,
-                            istHours: adjustedHours,
-                            istMinutes: adjustedMinutes,
-                            totalMinutes: adjustedHours * 60 + adjustedMinutes
-                        };
-                    });
-                    
-                    // Sort matches by start time
-                    matchesWithIST.sort((a, b) => a.totalMinutes - b.totalMinutes);
-                    
-                    // Determine which match to play
-                    let matchToPlay;
-                    if (currentTimeInMinutes < 19 * 60 + 20) { // Before 19:20 IST
-                        matchToPlay = matchesWithIST[0]; // Earliest match
-                    } else {
-                        matchToPlay = matchesWithIST[matchesWithIST.length - 1]; // Latest match
-                    }
-                    
-                    // Play the selected match
-                    const firstUrl = matchToPlay.playback_data.urls[0].url;
-                    const key = matchToPlay.playback_data.keys[0];
-                    
-                    const iframe = document.createElement('iframe');
-                    iframe.src = `https://teamroplry2.pages.dev/?url=${encodeURIComponent(firstUrl)}&key=${encodeURIComponent(key)}`;
-                    container.innerHTML = '';
-                    container.appendChild(iframe);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    loadingElement.className = 'error';
-                    loadingElement.textContent = `Error: ${error.message}`;
-                });
-        });
-    </script>
+            function loadIframe(src) {
+                const iframe = document.createElement('iframe');
+                iframe.src = src;
+                container.innerHTML = '';
+                container.appendChild(iframe);
+
+                setTimeout(() => {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        const contentText = iframeDoc?.body?.innerText || '';
+                        if (contentText.includes('6001') || contentText.includes('Stream error')) {
+                            showFallback();
+                        }
+                    } catch (e) {
+                        showFallback();
+                    }
+                }, 5000);
+            }
+
+            function showFallback() {
+                const fallbackIframe = document.createElement('iframe');
+                fallbackIframe.src = fallbackVideo;
+                container.innerHTML = '';
+                container.appendChild(fallbackIframe);
+            }
+
+            fetch('https://raw.githubusercontent.com/drmlive/willow-live-events/main/willow.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    const iplMatches = data.matches.filter(match =>
+                        match.title.includes('Indian Premier League 2025')
+                    );
+
+                    if (iplMatches.length === 0) {
+                        showFallback();
+                        return;
+                    }
+
+                    if (iplMatches.length === 1) {
+                        const match = iplMatches[0];
+                        const url = match.playback_data.urls[0].url;
+                        const key = match.playback_data.keys[0];
+                        loadIframe(`https://samarthsattani66.github.io/Teamroplry2/?url=${encodeURIComponent(url)}&key=${encodeURIComponent(key)}`);
+                        return;
+                    }
+
+                    const now = new Date();
+                    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+                    const matchesWithIST = iplMatches.map(match => {
+                        const utc = new Date(match.startTime);
+                        let hours = utc.getUTCHours() + 5;
+                        let minutes = utc.getUTCMinutes() + 30;
+                        if (minutes >= 60) {
+                            hours += 1;
+                            minutes -= 60;
+                        }
+                        return {
+                            ...match,
+                            istTimeInMinutes: hours * 60 + minutes
+                        };
+                    }).sort((a, b) => a.istTimeInMinutes - b.istTimeInMinutes);
+
+                    let matchToPlay;
+                    if (currentMinutes < 19 * 60 + 20) {
+                        matchToPlay = matchesWithIST[0];
+                    } else {
+                        matchToPlay = matchesWithIST[matchesWithIST.length - 1];
+                    }
+
+                    const url = matchToPlay.playback_data.urls[0].url;
+                    const key = matchToPlay.playback_data.keys[0];
+                    loadIframe(`https://samarthsattani66.github.io/Teamroplry2/?url=${encodeURIComponent(url)}&key=${encodeURIComponent(key)}`);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingElement.className = 'error';
+                    loadingElement.textContent = `Error: ${error.message}`;
+                });
+        });
+    </script>
 </body>
 </html>
