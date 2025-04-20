@@ -102,32 +102,31 @@
                         return;
                     }
 
-                    // Filter for CloudFront CDN URLs that are MPD files
-                    const cloudfrontMpdUrls = selectedMatch.playback_data.urls.filter(urlObj => 
+                    // Find the first CloudFront MPD URL
+                    const cloudfrontMpdUrlObj = selectedMatch.playback_data.urls.find(urlObj => 
                         urlObj.url && 
                         (urlObj.url.includes('cloudfront.net') || urlObj.url.includes('akamaized.net')) && 
                         (urlObj.url.endsWith('.mpd') || urlObj.url.includes('.mpd?'))
                     );
 
-                    if (cloudfrontMpdUrls.length === 0) {
-                        // If no CloudFront URLs, try any MPD URL as fallback
-                        const anyMpdUrls = selectedMatch.playback_data.urls.filter(urlObj => 
-                            urlObj.url && 
-                            (urlObj.url.endsWith('.mpd') || urlObj.url.includes('.mpd?'))
-                        );
-                        
-                        if (anyMpdUrls.length === 0) {
-                            showError('No valid MPD URLs found for this match.');
-                            return;
-                        }
-                        
-                        // Use first MPD URL found
-                        playStream(anyMpdUrls[0].url, selectedMatch.playback_data.keys[0]);
+                    if (cloudfrontMpdUrlObj) {
+                        // Play the first CloudFront MPD URL found
+                        playStream(cloudfrontMpdUrlObj.url, selectedMatch.playback_data.keys[0]);
                         return;
                     }
 
-                    // Use the first CloudFront MPD URL found
-                    playStream(cloudfrontMpdUrls[0].url, selectedMatch.playback_data.keys[0]);
+                    // If no CloudFront URL, try any MPD URL as fallback
+                    const anyMpdUrlObj = selectedMatch.playback_data.urls.find(urlObj => 
+                        urlObj.url && 
+                        (urlObj.url.endsWith('.mpd') || urlObj.url.includes('.mpd?'))
+                    );
+                    
+                    if (anyMpdUrlObj) {
+                        playStream(anyMpdUrlObj.url, selectedMatch.playback_data.keys[0]);
+                        return;
+                    }
+                    
+                    showError('No valid MPD URLs found for this match.');
                 })
                 .catch(error => {
                     showError('Error fetching or processing live events data: ' + error.message);
